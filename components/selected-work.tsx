@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useRef, useEffect } from "react";
 import { Container } from "./ui/container";
 import { Section } from "./ui/section";
 import { ArrowUpRight } from "lucide-react";
@@ -125,6 +126,7 @@ function ProjectCard({ project, index }: { project: any; index: number }) {
 
 export function SelectedWork() {
     const { dict } = useLanguage();
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     const projects = [
         {
@@ -156,6 +158,30 @@ export function SelectedWork() {
         }
     ];
 
+    // Create 15 sets to simulate infinite scroll without "jump" glitches
+    // This simple buffer strategy ensures smooth momentum scrolling
+    const infiniteProjects = [
+        ...projects, ...projects, ...projects, ...projects, ...projects,
+        ...projects, ...projects, ...projects, ...projects, ...projects,
+        ...projects, ...projects, ...projects, ...projects, ...projects
+    ];
+
+    useEffect(() => {
+        const scrollContainer = scrollRef.current;
+        if (!scrollContainer) return;
+
+        // Initialize scroll position to the middle (Start of Set 7)
+        const initScroll = () => {
+            const totalSets = 15;
+            const startSetIndex = 7; // Start in the middle
+            const oneSetWidth = scrollContainer.scrollWidth / totalSets;
+            scrollContainer.scrollLeft = oneSetWidth * startSetIndex;
+        };
+
+        // Slight delay to ensure layout is ready
+        setTimeout(initScroll, 100);
+    }, []);
+
     return (
         <Section id="work" className="relative bg-neutral-950/50 overflow-hidden">
             {/* Decorative Background Blob */}
@@ -172,7 +198,23 @@ export function SelectedWork() {
                     <div className="h-1 w-24 bg-gradient-to-r from-neutral-800 via-white to-neutral-800 mx-auto" />
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* Mobile/Tablet Manual Infinite Scroll */}
+                <div className="lg:hidden w-full -mx-4 sm:mx-0">
+                    <div
+                        ref={scrollRef}
+                        className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-8 px-8 no-scrollbar"
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                    >
+                        {infiniteProjects.map((project, index) => (
+                            <div key={`${project.id}-${index}`} className="w-[80vw] sm:w-[400px] flex-shrink-0 snap-center">
+                                <ProjectCard project={project} index={index % projects.length} />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Desktop Grid */}
+                <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {projects.map((project, index) => (
                         <ProjectCard key={project.id} project={project} index={index} />
                     ))}

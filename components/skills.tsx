@@ -47,29 +47,20 @@ const skillCategories = [
     }
 ];
 
-function Marquee({ children, reverse = false, className }: { children: React.ReactNode, reverse?: boolean, className?: string }) {
-    return (
-        <div className={cn("flex overflow-hidden w-full select-none group mask-linear-fade", className)}>
-            <div className={cn("flex shrink-0 gap-4 py-4 pr-4", reverse ? "animate-scroll-reverse" : "animate-scroll")}>
-                {children}
-            </div>
-            <div className={cn("flex shrink-0 gap-4 py-4 pr-4", reverse ? "animate-scroll-reverse" : "animate-scroll")}>
-                {children}
-            </div>
-        </div>
-    );
-}
+import { Marquee } from "./ui/marquee";
+
+
 
 function SkillCard({ skill }: { skill: { name: string; icon: string } }) {
     return (
-        <div className="relative flex items-center gap-3 px-6 py-3 bg-neutral-900/50 border border-neutral-800 rounded-xl hover:border-neutral-600 hover:bg-neutral-800/80 transition-all duration-300 w-max group cursor-default">
+        <div className="relative flex items-center gap-3 px-6 py-3 bg-neutral-900/80 border border-neutral-800 rounded-xl hover:border-neutral-600 hover:bg-neutral-800 transition-all duration-300 w-max group cursor-default backdrop-blur-md">
             <div className="relative w-8 h-8 flex items-center justify-center shrink-0">
                 <Image
                     src={`/icon/${skill.icon}`}
                     alt={skill.name}
                     width={32}
                     height={32}
-                    className="object-contain" // removed drop-shadow-glow for cleaner look, added it to CSS if needed
+                    className="object-contain drop-shadow-[0_0_5px_rgba(255,255,255,0.3)]" // Added glow for visibility
                 />
             </div>
             <span className="text-neutral-300 font-medium group-hover:text-white transition-colors">{skill.name}</span>
