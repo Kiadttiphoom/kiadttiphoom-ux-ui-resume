@@ -1,26 +1,82 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #050505;
+  --foreground: #ffffff;
+  --muted: #a3a3a3;
+  --accent: #262626;
+  --border: #262626;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* Subtle smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background-color: var(--foreground);
+  color: var(--background);
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+}
+
+.animate-scroll-reverse {
+  animation: scroll 40s linear infinite reverse;
+}
+
+/* Pause animation on hover */
+.group:hover .animate-scroll,
+.group:hover .animate-scroll-reverse {
+  animation-play-state: paused;
+}
+
+/* Star Animations for CSS Background */
+@keyframes animStar {
+  from {
+    transform: translateY(0px);
+  }
+
+  to {
+    transform: translateY(-2000px);
+  }
+}
+
+.animate-star-move-slow {
+  animation: animStar 100s linear infinite;
+}
+
+.animate-star-move-medium {
+  animation: animStar 150s linear infinite;
+}
+
+.animate-star-move-fast {
+  animation: animStar 200s linear infinite;
 }
