@@ -107,7 +107,7 @@ export function About() {
                                 transition={{ delay: 0.1 }}
                                 className="p-6 rounded-3xl bg-neutral-900/30 border border-neutral-800 flex flex-col items-center justify-center text-center hover:bg-neutral-900/50 transition-colors"
                             >
-                                <span className="text-4xl font-bold text-white mb-1">2+</span>
+                                <span className="text-4xl font-bold text-white mb-1">3</span>
                                 <span className="text-xs text-neutral-500 uppercase tracking-wider">{dict.about.stats_exp}</span>
                             </motion.div>
                             <motion.div

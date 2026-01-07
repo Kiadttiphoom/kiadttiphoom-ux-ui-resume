@@ -16,6 +16,9 @@ function ProjectCard({ project, index }: { project: any; index: number }) {
     const mouseY = useSpring(y, { stiffness: 500, damping: 100 });
 
     function onMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+        // Disable 3D effect on mobile (less than 768px)
+        if (typeof window !== 'undefined' && window.innerWidth < 768) return;
+
         const { left, top, width, height } = currentTarget.getBoundingClientRect();
         const xPct = (clientX - left) / width - 0.5;
         const yPct = (clientY - top) / height - 0.5;
@@ -38,7 +41,7 @@ function ProjectCard({ project, index }: { project: any; index: number }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
-            className="h-full [perspective:1000px]"
+            className="h-full md:[perspective:1000px]"
             onMouseMove={onMouseMove}
             onMouseLeave={onMouseLeave}
         >
@@ -48,7 +51,7 @@ function ProjectCard({ project, index }: { project: any; index: number }) {
                     rotateY,
                     transformStyle: "preserve-3d",
                 }}
-                className="group relative h-full flex flex-col justify-between p-8 rounded-3xl bg-neutral-900/40 border border-neutral-800 backdrop-blur-md overflow-hidden transition-all duration-500 ease-out hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:border-white/30"
+                className="group relative h-full flex flex-col justify-between p-8 rounded-3xl bg-neutral-900/40 border border-neutral-800 backdrop-blur-md overflow-hidden transition-all duration-500 ease-out md:hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] md:hover:border-white/30"
             >
                 {/* Clickable Overlay (Only for single-link projects) */}
                 {project.link && (
